@@ -10,7 +10,7 @@ class CourtsResource < Webmachine::Resource
   end
 
   def create_path
-    "/courts/#{new_court_name}"
+    "/courts/#{CGI::escape(new_court_name)}"
   end
 
   def content_types_accepted
