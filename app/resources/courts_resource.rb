@@ -34,9 +34,9 @@ class CourtsResource < Webmachine::Resource
     <<-HTML
       <h1>Courts</h1>
       <ul>
-        <a href='/courts/1'><li>Court 1</li></a>
-        <a href='/courts/2'><li>Court 2</li></a>
-        <a href='/courts/3'><li>Court 3</li></a>
+        <li><a href='/courts/1'>Court 1</a></li>
+        <li><a href='/courts/2'>Court 2</a></li>
+        <li><a href='/courts/3'>Court 3</a></li>
       </ul>
 
       <h2>Add a new court</h2>
