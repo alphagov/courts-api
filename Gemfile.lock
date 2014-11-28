@@ -1,0 +1,21 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    as-notifications (1.0.1)
+    i18n (0.6.11)
+    multi_json (1.10.1)
+    rack (1.5.2)
+    shotgun (0.9)
+      rack (>= 1.0)
+    webmachine (1.2.2)
+      as-notifications (~> 1.0)
+      i18n (>= 0.4.0)
+      multi_json
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rack
+  shotgun
+  webmachine
