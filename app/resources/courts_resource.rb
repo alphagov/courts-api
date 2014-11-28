@@ -10,7 +10,7 @@ class CourtsResource < Webmachine::Resource
   end
 
   def create_path
-    '/courts/4'
+    "/courts/#{new_court_name}"
   end
 
   def content_types_accepted
@@ -21,7 +21,7 @@ class CourtsResource < Webmachine::Resource
   end
 
   def from_form
-    if form_values.fetch('court_name') != 'A new court'
+    if new_court_name != 'A new court'
       raise Webmachine::MalformedRequest, 'We only accept "A new court" as a new court name'
     end
   end
@@ -46,5 +46,10 @@ class CourtsResource < Webmachine::Resource
         <input type="submit">
       </form>
     HTML
+  end
+
+private
+  def new_court_name
+    @_new_court_name ||= form_values.fetch('court_name')
   end
 end
