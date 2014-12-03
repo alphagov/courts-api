@@ -10,5 +10,6 @@ end
 group :test do
   gem 'rspec'
   gem 'webmachine-test'
+  gem 'webmachine-linking', git: 'git@github.com:petejohanson/webmachine-linking.git'
 end
 

@@ -1,9 +1,17 @@
+GIT
+  remote: git@github.com:petejohanson/webmachine-linking.git
+  revision: 339f416ae8d8bd6e3893cffba029756a81c477ab
+  specs:
+    webmachine-linking (0.1.0)
+      link_header
+
 GEM
   remote: https://rubygems.org/
   specs:
     as-notifications (1.0.1)
     diff-lcs (1.2.5)
     i18n (0.6.11)
+    link_header (0.0.8)
     multi_json (1.10.1)
     rack (1.5.2)
     rspec (2.14.1)
@@ -31,4 +39,5 @@ DEPENDENCIES
   rspec
   shotgun
   webmachine
+  webmachine-linking!
   webmachine-test
