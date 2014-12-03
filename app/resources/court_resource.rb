@@ -1,4 +1,6 @@
 class CourtResource < Webmachine::Resource
+  include Webmachine::Linking::Resource::LinkHelpers
+
   def allowed_methods
     %w(GET PUT DELETE)
   end
@@ -22,8 +24,15 @@ class CourtResource < Webmachine::Resource
 
   def to_html
     <<-HTML
+      <html>
+        <head>
+          #{link_tag('self', CourtResource, id: id)}
+        </head>
+      <body>
       <h1>#{@court.name}</h1>
       <p>Lorem ipsum justice, um</p>
+      </body>
+      <html>
     HTML
   end
 
