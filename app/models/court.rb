@@ -1,3 +1,5 @@
+require 'json'
+
 class Court < Struct.new(:id)
   # There are only 10 courts in our example.
   # Except for negative courts. Don't do that.
@@ -15,5 +17,9 @@ class Court < Struct.new(:id)
 
   def name
     "Court #{id}"
+  end
+
+  def to_json
+    JSON.dump({id: id, name: name})
   end
 end

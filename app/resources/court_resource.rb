@@ -9,6 +9,13 @@ class CourtResource < Webmachine::Resource
     %w(application/json)
   end
 
+  def content_types_provided
+    [
+      ['text/html', :to_html],
+      ['application/json', :to_json]
+    ]
+  end
+
   def resource_exists?
     @court = Court.find(id)
   end
@@ -20,6 +27,10 @@ class CourtResource < Webmachine::Resource
   def from_json
     @court.update(params)
     response.body = @court.to_json
+  end
+
+  def to_json
+    @court.to_json
   end
 
   def to_html
