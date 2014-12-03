@@ -33,7 +33,7 @@ class CourtsResource < Webmachine::Resource
   def to_html
     <<-HTML
       <h1>Courts</h1>
-      <ul>
+      <ul class="courts">
         <li><a href='/courts/1'>Court 1</a></li>
         <li><a href='/courts/2'>Court 2</a></li>
         <li><a href='/courts/3'>Court 3</a></li>
@@ -41,7 +41,7 @@ class CourtsResource < Webmachine::Resource
 
       <h2>Add a new court</h2>
       <i>(we'll take any of #{content_types_accepted.map(&:first)})</i>
-      <form method='POST' action='/courts'>
+      <form method="POST" action="/courts">
         <input type="text" name="court_name">
         <input type="submit">
       </form>
