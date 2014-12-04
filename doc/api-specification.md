@@ -89,15 +89,7 @@ Return a list of all the courts. Details TBD.
 
 ### Asset upload
 
-    POST /court-picture/<uuid>
-
-Send the picture of the court with the UUID passed. The content type must be `multipart/form-data`.
-
-The response body must include the public URL of the uploaded image:
-
-    {"public_url":"https://www.gov.uk/[image_url]"}
-
-> any restrictions on file size, image size, image format, etc?
+TBD.
 
 Payload
 -------
