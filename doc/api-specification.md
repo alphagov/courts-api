@@ -14,7 +14,7 @@ Principles
 
 A court is described by a collection of properties encoded as text. For instance, the court's name, or its address, as well as some binary data representing a court's picture.
 
-Those properties are organised in a hierarchy. For instance, a court can have multiple addresses, each of which having one town name. JSON is used to serialise the textual data passed through the API, while JPG is used for encoding a court's picture.
+Those properties are organised in a hierarchy. For instance, a court can have multiple addresses, each of which having one town name. JSON is used to serialise the textual data passed through the API, while some image format TBD is used for encoding a court's picture.
 
 ### Court identifiers
 
@@ -80,16 +80,11 @@ The sender must not use this API call to indicate that a court or a tribunal has
 
     GET https://{base}/{uuid}
 
-retrieve court data. If an existing UUID is passed, the receiver must return `200 OK`, and the response body must be the corresponding court object, which must conform to the JSON format for courts. The receiver returns `404 Not Found` in case no court exists with the UUID passed, or other standard error codes are sent in case of other errors.
+retrieve information on a single court. Details TBD.
 
     GET https://{base}/courts
 
-Return a list of all the courts, as:
-
-    {
-    "f81d4fae-7dec-11d0-a765-00a0c91e6bf6": {"name": "Accrington Magistrates' Court", "slug":"accrington-magistrates-court" },
-    "f81d4fae-7dec-11d0-a765-00a0c91e6bf7": {"name": "Aberystwyth Justice Centre", "slug":"aberystwyth-justice-centre" }
-    }
+Return a list of all the courts. Details TBD.
 
 
 ### Asset upload
