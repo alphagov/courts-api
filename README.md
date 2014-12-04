@@ -2,3 +2,5 @@
 
 This app provides URLs for publishing MOJ courts and tribunals information to
 GOV.UK.
+
+* [API specification](doc/api-specification.md)
