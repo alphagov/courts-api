@@ -80,4 +80,4 @@ PLATFORMS
 
 DEPENDENCIES
   rails (= 4.1.8)
-  rails-api
+  rails-api (= 0.3.1)
