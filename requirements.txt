@@ -5,6 +5,7 @@ falcon==0.2.0b1
 gunicorn==19.1.1
 httpie==0.8.0
 ipython==2.3.1
+jsonschema==2.4.0
 python-mimeparse==0.1.4
 requests==2.5.0
 six==1.8.0
