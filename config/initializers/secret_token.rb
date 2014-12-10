@@ -16,4 +16,4 @@
 # Using secret_token for rails3 compatibility. Change to secret_key_base
 # to avoid deprecation warning.
 # Can be safely removed in a rails3 api-only application.
-CourtsApi::Application.config.secret_token = '06d5b6bd03dea708f1858637ee724dddab0c660a99252fd06433be1dedd7d82b9e3d723379c4f59961099dd3a19b6d3959875118e61ec8a8d3743f08f1d5c836'
+CourtsAPI::Application.config.secret_token = '06d5b6bd03dea708f1858637ee724dddab0c660a99252fd06433be1dedd7d82b9e3d723379c4f59961099dd3a19b6d3959875118e61ec8a8d3743f08f1d5c836'
