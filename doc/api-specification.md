@@ -164,7 +164,7 @@ All court data passed through the API by the sender or the receiver (in the body
                 "name": "Enquiries",
                 "address": "ln-blackburnmcenq@hmcts.gsi.gov.uk"
             }
-        ],
+        ]
     }
 
 ### Schema
