@@ -101,7 +101,7 @@ All court data passed through the API by the sender or the receiver (in the body
     {
         "name": "Accrington Magistrates' Court",
         "slug": "accrington-magistrates-court",
-        "updated_at": "2014-03-18T12:33:12.176",
+        "updated_at": "2014-03-18T12:33:12.176Z",
         "update_type": "major",
         "locale": "en",
         "closed": false,
