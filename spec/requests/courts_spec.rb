@@ -60,4 +60,9 @@ describe 'publishing a court' do
     put "/courts/#{court_id}", {"name" => "Barnsley Squash Court"}.to_json
     expect(response).to be_unprocessable
   end
+
+  it 'returns 400 for invalid JSON' do
+    put "/courts/#{court_id}", '{"trailing": "comma",}'
+    expect(response).to be_bad_request
+  end
 end

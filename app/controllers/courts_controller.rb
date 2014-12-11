@@ -1,6 +1,11 @@
 class CourtsController < ApplicationController
   def update
-    court_body = JSON.parse(request.body.read)
+    begin
+      court_body = JSON.parse(request.body.read)
+    rescue JSON::ParserError
+      return head :bad_request
+    end
+
     unless court_body['name'].present? && court_body["slug"].present?
       return head :unprocessable_entity
     end
