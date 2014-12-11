@@ -26,6 +26,10 @@ describe 'publishing a court' do
 
   let(:court_id) { '0c833dee-01de-4f4d-9b2e-e7d1b8d76418' }
 
+  before :each do
+    allow(CourtsAPI.publishing_api).to receive(:put_content_item)
+  end
+
   it 'responds with a success code' do
     put "/courts/#{court_id}", court_json
     expect(response).to be_success

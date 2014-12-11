@@ -28,11 +28,14 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    addressable (2.3.6)
     airbrake (4.1.0)
       builder
       multi_json
     arel (5.0.1.20140414130214)
     builder (3.2.2)
+    crack (0.4.2)
+      safe_yaml (~> 1.0.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     gds-api-adapters (17.2.0)
@@ -104,6 +107,7 @@ GEM
       rspec-mocks (~> 3.1.0)
       rspec-support (~> 3.1.0)
     rspec-support (3.1.2)
+    safe_yaml (1.0.4)
     sprockets (2.12.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -122,6 +126,9 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    webmock (1.20.4)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
 
 PLATFORMS
   ruby
@@ -134,3 +141,4 @@ DEPENDENCIES
   rails-api (= 0.3.1)
   rspec-rails (= 3.1.0)
   unicorn (= 4.8.3)
+  webmock (= 1.20.4)

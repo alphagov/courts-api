@@ -10,3 +10,7 @@ gem 'gds-api-adapters', '~> 17.2'
 group :development, :test do
   gem 'rspec-rails', '3.1.0'
 end
+
+group :test do
+  gem 'webmock', '1.20.4'
+end
