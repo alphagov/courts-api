@@ -1,11 +1,7 @@
 class CourtsController < ApplicationController
-  def update
-    begin
-      court_body = JSON.parse(request.body.read)
-    rescue JSON::ParserError
-      return head :bad_request
-    end
+  before_filter :parse_request_body, only: [:update]
 
+  def update
     unless court_body['name'].present? && court_body["slug"].present?
       return head :unprocessable_entity
     end
@@ -23,6 +19,10 @@ class CourtsController < ApplicationController
   end
 
 private
+  def court_body
+    @parsed_request_body
+  end
+
   def base_path(court_body)
     "/courts/#{court_body["slug"]}"
   end
