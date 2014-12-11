@@ -1,7 +1,9 @@
 class CourtsController < ApplicationController
   def update
     court_body = JSON.parse(request.body.read)
-    return head :unprocessable_entity unless court_body["slug"].present?
+    unless court_body['name'].present? && court_body["slug"].present?
+      return head :unprocessable_entity
+    end
 
     publishing_api_body = publishing_api_format(params[:id], court_body)
 
