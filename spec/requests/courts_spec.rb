@@ -51,6 +51,13 @@ describe 'publishing a court' do
     expect(response_json["name"]).to eq("Barnsley Squash Court")
   end
 
+  it 'includes the published URL in the response' do
+    put "/courts/#{court_id}", court_json
+    response_json = JSON.parse(response.body)
+    expect(response_json).to include("public_url")
+    expect(response_json["public_url"]).to eq('https://www.gov.uk/courts/barnsley-squash-court')
+  end
+
   it 'requires a name' do
     put "/courts/#{court_id}", {"slug" => "barnsley-squash-court"}.to_json
     expect(response).to be_unprocessable

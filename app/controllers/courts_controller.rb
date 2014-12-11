@@ -16,7 +16,10 @@ class CourtsController < ApplicationController
       base_path(court_body),
       publishing_api_body,
     )
-    render json: {name: court_body["name"]}
+    render json: {
+      name: court_body["name"],
+      public_url: (Plek.new.website_uri + base_path(court_body)).to_s
+    }
   end
 
 private
