@@ -50,4 +50,9 @@ describe 'publishing a court' do
     expect(response_json).to include("name")
     expect(response_json["name"]).to eq("Barnsley Squash Court")
   end
+
+  it 'requires a slug' do
+    put "/courts/#{court_id}", {"name" => "Barnsley Squash Court"}.to_json
+    expect(response).to be_unprocessable
+  end
 end
