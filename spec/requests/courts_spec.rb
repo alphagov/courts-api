@@ -3,22 +3,22 @@ require 'rails_helper'
 describe 'publishing a court' do
 
   let(:court_json) do
-    { name: "Barnsley Squash Court", slug: "barnsley-squash-court" }.to_json
+    { name: 'Barnsley Squash Court', slug: 'barnsley-squash-court' }.to_json
   end
 
   let(:publishing_api_hash) do
     {
-      base_path: "/courts/barnsley-squash-court",
+      base_path: '/courts/barnsley-squash-court',
       content_id: court_id,
-      title: "Barnsley Squash Court",
-      format: "court",
-      update_type: "major",
-      publishing_app: "courts-api",
-      rendering_app: "courts-frontend",
+      title: 'Barnsley Squash Court',
+      format: 'court',
+      update_type: 'major',
+      publishing_app: 'courts-api',
+      rendering_app: 'courts-frontend',
       routes: [
         {
-          path: "/courts/barnsley-squash-court",
-          type: "exact",
+          path: '/courts/barnsley-squash-court',
+          type: 'exact',
         }
       ]
     }
@@ -37,7 +37,7 @@ describe 'publishing a court' do
 
   it 'sends the court to the publishing API' do
     expect(CourtsAPI.publishing_api).to receive(:put_content_item).with(
-      "/courts/barnsley-squash-court",
+      '/courts/barnsley-squash-court',
       publishing_api_hash
     )
 
@@ -47,24 +47,24 @@ describe 'publishing a court' do
   it 'includes the court name in the response' do
     put "/courts/#{court_id}", court_json
     response_json = JSON.parse(response.body)
-    expect(response_json).to include("name")
-    expect(response_json["name"]).to eq("Barnsley Squash Court")
+    expect(response_json).to include('name')
+    expect(response_json['name']).to eq('Barnsley Squash Court')
   end
 
   it 'includes the published URL in the response' do
     put "/courts/#{court_id}", court_json
     response_json = JSON.parse(response.body)
-    expect(response_json).to include("public_url")
-    expect(response_json["public_url"]).to eq('https://www.gov.uk/courts/barnsley-squash-court')
+    expect(response_json).to include('public_url')
+    expect(response_json['public_url']).to eq('https://www.gov.uk/courts/barnsley-squash-court')
   end
 
   it 'requires a name' do
-    put "/courts/#{court_id}", { slug: "barnsley-squash-court" }.to_json
+    put "/courts/#{court_id}", { slug: 'barnsley-squash-court' }.to_json
     expect(response).to be_unprocessable
   end
 
   it 'requires a slug' do
-    put "/courts/#{court_id}", { name: "Barnsley Squash Court" }.to_json
+    put "/courts/#{court_id}", { name: 'Barnsley Squash Court' }.to_json
     expect(response).to be_unprocessable
   end
 
