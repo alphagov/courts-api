@@ -32,7 +32,7 @@ describe 'publishing a court' do
 
   it 'responds with a success code' do
     put "/courts/#{court_id}", court_json
-    expect(response).to be_success
+    expect(response).to have_http_status(200)
   end
 
   it 'sends the court to the publishing API' do
@@ -60,16 +60,16 @@ describe 'publishing a court' do
 
   it 'requires a name' do
     put "/courts/#{court_id}", { slug: 'barnsley-squash-court' }.to_json
-    expect(response).to be_unprocessable
+    expect(response).to have_http_status(422)
   end
 
   it 'requires a slug' do
     put "/courts/#{court_id}", { name: 'Barnsley Squash Court' }.to_json
-    expect(response).to be_unprocessable
+    expect(response).to have_http_status(422)
   end
 
   it 'returns 400 for invalid JSON' do
     put "/courts/#{court_id}", '{"trailing": "comma",}'
-    expect(response).to be_bad_request
+    expect(response).to have_http_status(400)
   end
 end
