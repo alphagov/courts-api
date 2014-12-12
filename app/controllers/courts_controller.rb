@@ -31,15 +31,15 @@ private
     name = court_body["name"]
 
     {
-      "base_path" => base_path(court_body),
-      "content_id" => court_id,
-      "title" => name,
-      "format" => "court",
-      "update_type" => "major",
-      "publishing_app" => "courts-api",
-      "rendering_app" => "courts-frontend",
-      "routes" => [
-        {"path" => base_path(court_body), "type" => "exact"}
+      base_path: base_path(court_body),
+      content_id: court_id,
+      title: name,
+      format: "court",
+      update_type: "major",
+      publishing_app: "courts-api",
+      rendering_app: "courts-frontend",
+      routes: [
+        { path: base_path(court_body), type: "exact" }
       ]
     }
   end

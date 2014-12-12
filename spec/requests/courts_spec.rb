@@ -3,22 +3,22 @@ require 'rails_helper'
 describe 'publishing a court' do
 
   let(:court_json) do
-    {"name" => "Barnsley Squash Court", "slug" => "barnsley-squash-court"}.to_json
+    { name: "Barnsley Squash Court", slug: "barnsley-squash-court" }.to_json
   end
 
   let(:publishing_api_hash) do
     {
-      "base_path" => "/courts/barnsley-squash-court",
-      "content_id" => court_id,
-      "title" => "Barnsley Squash Court",
-      "format" => "court",
-      "update_type" => "major",
-      "publishing_app" => "courts-api",
-      "rendering_app" => "courts-frontend",
-      "routes" => [
+      base_path: "/courts/barnsley-squash-court",
+      content_id: court_id,
+      title: "Barnsley Squash Court",
+      format: "court",
+      update_type: "major",
+      publishing_app: "courts-api",
+      rendering_app: "courts-frontend",
+      routes: [
         {
-          "path" => "/courts/barnsley-squash-court",
-          "type" => "exact",
+          path: "/courts/barnsley-squash-court",
+          type: "exact",
         }
       ]
     }
@@ -59,12 +59,12 @@ describe 'publishing a court' do
   end
 
   it 'requires a name' do
-    put "/courts/#{court_id}", {"slug" => "barnsley-squash-court"}.to_json
+    put "/courts/#{court_id}", { slug: "barnsley-squash-court" }.to_json
     expect(response).to be_unprocessable
   end
 
   it 'requires a slug' do
-    put "/courts/#{court_id}", {"name" => "Barnsley Squash Court"}.to_json
+    put "/courts/#{court_id}", { name: "Barnsley Squash Court" }.to_json
     expect(response).to be_unprocessable
   end
 
