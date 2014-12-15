@@ -13,4 +13,5 @@ end
 
 group :test do
   gem 'webmock', '1.20.4'
+  gem 'rspec-given', '3.5.4'
 end
