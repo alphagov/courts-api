@@ -48,7 +48,7 @@ API calls
 
     PUT https://{base}/{uuid}
 
-change or create a court.
+...to change or create a court.
 
 `base` is predefined by the receiver. The body of the request contains the description of the court, which must conform to the court JSON schema described below. Upon receiving the data, the receiver generates or updates a court page.
 
