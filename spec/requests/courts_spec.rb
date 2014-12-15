@@ -77,4 +77,9 @@ describe 'publishing a court' do
     put_json "/courts/#{court_id}", court_hash, { 'Content-Type' => 'application/xml' }
     expect(response).to have_http_status(415)
   end
+
+  it 'returns 406 when the Accept header is not application/json' do
+    put_json "/courts/#{court_id}", court_hash, { 'Accept' => 'application/xml' }
+    expect(response).to have_http_status(406)
+  end
 end

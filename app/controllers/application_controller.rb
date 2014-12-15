@@ -7,6 +7,12 @@ private
     end
   end
 
+  def check_accept_header
+    if request.headers['Accept'] != 'application/json'
+      render json: { status: 'error', errors: 'Invalid Accept header. You must accept application/json.' }, status: 406
+    end
+  end
+
   def parse_request_body
     @parsed_request_body = JSON.parse(request.body.read)
   rescue JSON::ParserError => e
