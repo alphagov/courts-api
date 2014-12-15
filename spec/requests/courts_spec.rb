@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe 'publishing a court' do
 
-  let(:court_json) do
-    { name: 'Barnsley Squash Court', slug: 'barnsley-squash-court' }.to_json
+  let(:court_hash) do
+    { name: 'Barnsley Squash Court', slug: 'barnsley-squash-court' }
   end
 
   let(:publishing_api_hash) do
@@ -31,7 +31,7 @@ describe 'publishing a court' do
   end
 
   it 'responds with a success code' do
-    put "/courts/#{court_id}", court_json
+    put_json "/courts/#{court_id}", court_hash
     expect(response).to have_http_status(200)
   end
 
@@ -41,35 +41,45 @@ describe 'publishing a court' do
       publishing_api_hash
     )
 
-    put "/courts/#{court_id}", court_json
+    put_json "/courts/#{court_id}", court_hash
   end
 
   it 'includes the court name in the response' do
-    put "/courts/#{court_id}", court_json
+    put_json "/courts/#{court_id}", court_hash
     response_json = JSON.parse(response.body)
     expect(response_json).to include('name')
     expect(response_json['name']).to eq('Barnsley Squash Court')
   end
 
   it 'includes the published URL in the response' do
-    put "/courts/#{court_id}", court_json
+    put_json "/courts/#{court_id}", court_hash
     response_json = JSON.parse(response.body)
     expect(response_json).to include('public_url')
     expect(response_json['public_url']).to eq('https://www.gov.uk/courts/barnsley-squash-court')
   end
 
   it 'requires a name' do
-    put "/courts/#{court_id}", { slug: 'barnsley-squash-court' }.to_json
+    put_json "/courts/#{court_id}", { slug: 'barnsley-squash-court' }
     expect(response).to have_http_status(422)
   end
 
   it 'requires a slug' do
-    put "/courts/#{court_id}", { name: 'Barnsley Squash Court' }.to_json
+    put_json "/courts/#{court_id}", { name: 'Barnsley Squash Court' }
     expect(response).to have_http_status(422)
   end
 
   it 'returns 400 for invalid JSON' do
-    put "/courts/#{court_id}", '{"trailing": "comma",}'
+    put_json "/courts/#{court_id}", '{"trailing": "comma",}'
     expect(response).to have_http_status(400)
+  end
+
+  it 'returns 415 when the Content-Type header is not application/json' do
+    put_json "/courts/#{court_id}", court_hash, { 'Content-Type' => 'application/xml' }
+    expect(response).to have_http_status(415)
+  end
+
+  it 'returns 406 when the Accept header is not application/json' do
+    put_json "/courts/#{court_id}", court_hash, { 'Accept' => 'application/xml' }
+    expect(response).to have_http_status(406)
   end
 end
