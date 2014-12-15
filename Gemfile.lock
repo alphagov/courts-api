@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    PriorityQueue (0.1.2)
     actionmailer (4.1.8)
       actionpack (= 4.1.8)
       actionview (= 4.1.8)
@@ -27,27 +28,44 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    addressable (2.3.6)
     airbrake (4.1.0)
       builder
       multi_json
     arel (5.0.1.20140414130214)
     builder (3.2.2)
+    crack (0.4.2)
+      safe_yaml (~> 1.0.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
+    gds-api-adapters (17.2.0)
+      link_header
+      lrucache (~> 0.1.1)
+      null_logger
+      plek
+      rack-cache
+      rest-client (~> 1.6.3)
     hike (1.2.3)
     i18n (0.6.11)
     json (1.8.1)
     kgio (2.9.2)
+    link_header (0.0.8)
     logstash-event (1.1.5)
     logstasher (0.6.1)
       logstash-event (~> 1.1.0)
       request_store
+    lrucache (0.1.4)
+      PriorityQueue (~> 0.1.2)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.4.3)
     minitest (5.4.3)
     multi_json (1.10.1)
+    null_logger (0.0.1)
+    plek (1.9.0)
     rack (1.5.2)
+    rack-cache (1.2)
+      rack (>= 0.4)
     rack-test (0.6.2)
       rack (>= 1.0)
     rails (4.1.8)
@@ -71,6 +89,8 @@ GEM
     raindrops (0.13.0)
     rake (10.4.0)
     request_store (1.1.0)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rspec-core (3.1.7)
       rspec-support (~> 3.1.0)
     rspec-expectations (3.1.2)
@@ -87,6 +107,7 @@ GEM
       rspec-mocks (~> 3.1.0)
       rspec-support (~> 3.1.0)
     rspec-support (3.1.2)
+    safe_yaml (1.0.4)
     sprockets (2.12.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -105,14 +126,19 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    webmock (1.20.4)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   airbrake (= 4.1.0)
+  gds-api-adapters (~> 17.2)
   logstasher (= 0.6.1)
   rails (= 4.1.8)
   rails-api (= 0.3.1)
   rspec-rails (= 3.1.0)
   unicorn (= 4.8.3)
+  webmock (= 1.20.4)
