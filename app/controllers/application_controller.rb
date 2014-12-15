@@ -1,6 +1,12 @@
 class ApplicationController < ActionController::API
 
 private
+  def check_content_type_header
+    if request.headers['Content-Type'] != 'application/json'
+      render json: { status: 'error', errors: 'Invalid Content-Type header. You must send application/json.' }, status: 415
+    end
+  end
+
   def parse_request_body
     @parsed_request_body = JSON.parse(request.body.read)
   rescue JSON::ParserError => e
