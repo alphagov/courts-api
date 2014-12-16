@@ -106,9 +106,9 @@ All court data passed through the API by the sender or the receiver (in the body
         "locale": "en",
         "closed": false,
         "alert": "There is an intermittent fault with our telephone number and it is sometimes unavailable.",
-        "lat": "53.7491281247251",
-        "lon": "-2.359323760375266",
-        "court_number": 1725,
+        "lat": 53.7491281247251,
+        "lon": -2.359323760375266,
+        "court_number": "1725",
         "DX": "730458 Blackburn 10",
         "areas_of_law": [
             "Crime", "Adoption"
