@@ -1,4 +1,5 @@
 class CourtsController < ApplicationController
+  before_filter :require_signin_permission!, only: [:update]
   before_filter :check_content_type_header, only: [:update]
   before_filter :check_accept_header, only: [:update]
   before_filter :parse_request_body, only: [:update]

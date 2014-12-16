@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::API
+  include GDS::SSO::ControllerMethods
 
 private
   def check_content_type_header
