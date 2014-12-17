@@ -56,13 +56,13 @@
             "minimum": -90
         },
         "court_number": {
-            "description": "official number of this court",
+            "description": "official number of this court. This is used on various HMCTS documents and forms.",
             "type": "string",
             "maxLength": 200,
             "minLength": 1
         },
         "DX": {
-            "description": "directory exchange of this court",
+            "description": "directory exchange of this court. This is used for inter-court post, and also by law professionals.",
             "type": "string",
             "maxLength": 200,
             "minLength": 1
