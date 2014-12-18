@@ -14,7 +14,7 @@
         "slug": {
             "description": "the slug used for the public uri for this court",
             "type": "string",
-            "pattern": "[-a-z]+",
+            "pattern": "/^[a-z\d]+(?:-[a-z\d]+)*$",
             "maxLength": 200,
             "minLength": 1
         },
