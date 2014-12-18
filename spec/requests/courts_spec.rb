@@ -82,4 +82,11 @@ describe 'publishing a court' do
     put_json "/courts/#{court_id}", court_hash, { 'Accept' => 'application/xml' }
     expect(response).to have_http_status(406)
   end
+
+  describe 'authentication' do
+    it 'rejects the request if no bearer token is present' do
+      put_json "/courts/#{court_id}", court_hash, { "HTTP_AUTHORIZATION" => "" }
+      expect(response).to have_http_status(401)
+    end
+  end
 end
