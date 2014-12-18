@@ -14,7 +14,7 @@
         "slug": {
             "description": "the slug used for the public uri for this court",
             "type": "string",
-            "pattern": "/^[a-z\d]+(?:-[a-z\d]+)*$",
+            "pattern": "^[a-z\d]+(?:-[a-z\d]+)*$",
             "maxLength": 200,
             "minLength": 1
         },
@@ -55,7 +55,7 @@
             "maximum": 90,
             "minimum": -90
         },
-        "court_number": {
+        "number": {
             "description": "official number of this court. This is used on various HMCTS documents and forms.",
             "type": "string",
             "maxLength": 200,
