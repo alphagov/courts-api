@@ -43,9 +43,6 @@ A court's UUID must never change in the lifetime of a court. A UUID must also ne
 Connecting to the API
 ---------
 
-The base path for the preview environment is:
-https://courts-api.preview.alphagov.co.uk
-
 Authentication is done with a token, which needs to be supplied in the `Authorization` HTTP header, like this:
 
     Authorization: Bearer your_token
