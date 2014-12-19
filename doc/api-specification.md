@@ -65,7 +65,7 @@ API calls
 
 ### Court creation or change
 
-    PUT https://{base}/{uuid}
+    PUT https://{base}/courts/{uuid}
 
 ...to change or create a court.
 
@@ -89,7 +89,7 @@ Errors are returned through standard HTTP response codes: 4XX on sender errors (
 
 In rare circumstances, typically following the mistaken creation of a court, a court's page needs to be removed from public view. The sender sends:
 
-    DELETE https://{base}/{uuid}
+    DELETE https://{base}/courts/{uuid}
 
 The receiver must return one of the standard HTTP response codes, as above, with optional informative response body. The receiver must alter the corresponding court page so that it is no longer visible to the public. The UUID of a deleted court must never be reused.
 
@@ -97,7 +97,7 @@ The sender must not use this API call to indicate that a court or a tribunal has
 
 ### Fetching court information
 
-    GET https://{base}/{uuid}
+    GET https://{base}/courts/{uuid}
 
 retrieve information on a single court. Details TBD.
 
