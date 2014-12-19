@@ -40,6 +40,25 @@ From the [content-store on 23-12-2014](https://github.com/alphagov/content-store
 
 A court's UUID must never change in the lifetime of a court. A UUID must also never be reused after a court has been deleted.
 
+Connecting to the API
+---------
+
+The base path for the preview environment is:
+https://courts-api.preview.alphagov.co.uk
+
+Authentication is done with a token, which needs to be supplied in the `Authorization` HTTP header, like this:
+
+    Authorization: Bearer your_token
+
+You also need to supply an accept header and a Content-Type header:
+
+    Accept: application/json
+    Content-Type: application/json
+
+Please note that:
+
+* Tokens are environment specific, so preview and production will have different tokens.
+* The data on preview is overwritten every night with data from production.
 
 API calls
 ---------
@@ -50,7 +69,7 @@ API calls
 
 ...to change or create a court.
 
-`base` is predefined by the receiver. The body of the request contains the description of the court, which must conform to the court JSON schema described below. Upon receiving the data, the receiver generates or updates a court page.
+`base` is predefined by the receiver. In the preview environment, `base` is `https://courts-api.preview.alphagov.co.uk`. The body of the request contains the description of the court, which must conform to the court JSON schema described below. Upon receiving the data, the receiver generates or updates a court page.
 
 On success, the receiver responds with a `201 Created` status code if a new court is created (as a result of the sender passing a new UUID passed in the request URL), or a `200 OK` if the call updates an existing court.
 
