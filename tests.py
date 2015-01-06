@@ -3,7 +3,7 @@ import uuid
 from falcon.testing import TestBase
 from json import dumps
 
-from app.app import api as courts_api
+from app.app import courts_api
 
 
 class CourtsAPITestBase(TestBase):
