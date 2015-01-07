@@ -30,6 +30,11 @@ def check_client_accepts_json(req, resp, params):
         raise falcon.HTTPNotAcceptable('You must accept JSON')
 
 
+def check_client_is_sending_json(req, resp, params):
+    if req.content_type != 'application/json':
+        raise falcon.HTTPUnsupportedMediaType('You must send JSON')
+
+
 def validate_court(data):
     with open('court_schema.json') as schema:
         try:
@@ -40,6 +45,7 @@ def validate_court(data):
             raise HTTPUnprocessableEntity('Validation failed', e.message)
 
 
+@falcon.before(check_client_is_sending_json)
 @falcon.before(check_client_accepts_json)
 class CourtsResource(object):
 
@@ -49,6 +55,7 @@ class CourtsResource(object):
         resp.status = falcon.HTTP_200
 
 
+@falcon.before(check_client_is_sending_json)
 @falcon.before(check_client_accepts_json)
 class CourtResource(object):
 

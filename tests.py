@@ -46,3 +46,11 @@ class CourtRequestTests(CourtsAPITestBase):
     def test_putting_an_invalid_court(self):
         self.put({'foo': 'bar'})
         self.assertEqual(self.srmock.status, HTTP_422)
+
+    def test_putting_with_unsupported_media_type(self):
+        self.put(VALID_REQUEST_BODY, headers={'Content-Type': 'text/plain'})
+        self.assertEqual(self.srmock.status, falcon.HTTP_415)
+
+    def test_putting_without_accepting_json(self):
+        self.put(VALID_REQUEST_BODY, headers={'Accept': 'application/xml'})
+        self.assertEqual(self.srmock.status, falcon.HTTP_406)
