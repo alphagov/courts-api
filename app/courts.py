@@ -5,6 +5,10 @@ from falcon.http_error import HTTPError
 from jsonschema import validate, ValidationError, SchemaError
 
 
+with open('court_schema.json') as schema:
+    COURT_SCHEMA = json.load(schema)
+
+
 # 422 isn't in falcon.status_codes:
 HTTP_422 = '422 Unprocessable Entity'
 
@@ -36,13 +40,12 @@ def check_client_is_sending_json(req, resp, params):
 
 
 def validate_court(data):
-    with open('court_schema.json') as schema:
-        try:
-            validate(data, json.load(schema))
-        except SchemaError:
-            raise falcon.HTTPInternalServerError
-        except ValidationError as e:
-            raise HTTPUnprocessableEntity('Validation failed', e.message)
+    try:
+        validate(data, COURT_SCHEMA)
+    except SchemaError:
+        raise falcon.HTTPInternalServerError
+    except ValidationError as e:
+        raise HTTPUnprocessableEntity('Validation failed', e.message)
 
 
 @falcon.before(check_client_is_sending_json)
