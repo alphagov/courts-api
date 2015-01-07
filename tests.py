@@ -4,6 +4,7 @@ from falcon.testing import TestBase
 from json import dumps
 
 from app.app import courts_api
+from app.courts import HTTP_422
 
 
 def court_path(court_uuid):
@@ -41,3 +42,7 @@ class CourtRequestTests(CourtsAPITestBase):
     def test_putting_a_valid_court(self):
         self.put(VALID_REQUEST_BODY)
         self.assertEqual(self.srmock.status, falcon.HTTP_201)
+
+    def test_putting_an_invalid_court(self):
+        self.put({'foo': 'bar'})
+        self.assertEqual(self.srmock.status, HTTP_422)

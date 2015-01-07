@@ -5,6 +5,9 @@ from falcon.http_error import HTTPError
 from jsonschema import validate, ValidationError, SchemaError
 
 
+# 422 isn't in falcon.status_codes:
+HTTP_422 = '422 Unprocessable Entity'
+
 class HTTPUnprocessableEntity(HTTPError):
     """422 Unprocessable Entity.
 
@@ -19,7 +22,7 @@ class HTTPUnprocessableEntity(HTTPError):
     """
 
     def __init__(self, title, description, **kwargs):
-        HTTPError.__init__(self, '422 Unprocessable Entity', title, description, **kwargs)
+        HTTPError.__init__(self, HTTP_422, title, description, **kwargs)
 
 
 def check_client_accepts_json(req, resp, params):
