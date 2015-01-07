@@ -1,7 +1,7 @@
 import falcon
 from uuid import uuid4 as random_uuid
 from falcon.testing import TestBase
-from json import dumps
+from json import dumps, loads
 
 from app.app import courts_api
 from app.courts import HTTP_422
@@ -54,3 +54,21 @@ class CourtRequestTests(CourtsAPITestBase):
     def test_putting_without_accepting_json(self):
         self.put(VALID_REQUEST_BODY, headers={'Accept': 'application/xml'})
         self.assertEqual(self.srmock.status, falcon.HTTP_406)
+
+    def test_get_request_for_court_not_allowed(self):
+        self.simulate_request(
+            court_path(random_uuid()),
+            method='GET',
+            headers=VALID_REQUEST_HEADERS,
+            body=dumps(VALID_REQUEST_BODY),
+        )
+        self.assertEqual(self.srmock.status, falcon.HTTP_405)
+
+    def test_get_all_courts(self):
+        resp = self.simulate_request(
+            '/courts',
+            method='GET',
+            headers=VALID_REQUEST_HEADERS
+        )
+        self.assertEqual(self.srmock.status, falcon.HTTP_200)
+        self.assertIn('courts', loads(resp[0]))
