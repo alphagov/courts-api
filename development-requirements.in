@@ -4,5 +4,6 @@ nose
 sniffer
 git+https://github.com/nvie/pip-tools.git@future
 pipdeptree
+pip<6.0
 
 -r requirements.in
