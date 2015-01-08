@@ -72,7 +72,6 @@ class CourtRequestTests(CourtsAPITestBase):
             court_path(random_uuid()),
             method='GET',
             headers=VALID_REQUEST_HEADERS,
-            body=dumps(VALID_REQUEST_BODY),
         )
         self.assertStatus(falcon.HTTP_405)
 
