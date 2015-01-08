@@ -1,13 +1,10 @@
 import falcon
 
-import courts
+from resources import CourtsResource, CourtResource, HealthcheckResource
 
 
 courts_api = application = falcon.API()
 
-courts_index = courts.CourtsResource()
-court = courts.CourtResource()
-
-courts_api.add_route('/courts', courts_index)
-courts_api.add_route('/courts/{uuid}', court)
-courts_api.add_route('/healthcheck', courts.HealthcheckResource())
+courts_api.add_route('/courts', CourtsResource())
+courts_api.add_route('/courts/{uuid}', CourtResource())
+courts_api.add_route('/healthcheck', HealthcheckResource())

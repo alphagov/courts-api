@@ -4,7 +4,7 @@ from falcon.testing import TestBase
 from json import dumps, loads
 
 from app.app import courts_api
-from app.courts import HTTP_422
+from app.errors import HTTP_422
 
 
 def court_path(court_uuid):
