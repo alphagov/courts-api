@@ -3,7 +3,7 @@ from uuid import uuid4 as random_uuid
 from falcon.testing import TestBase
 from json import dumps, loads
 
-from app.app import courts_api
+from app.app import application as courts_api
 from app.errors import HTTP_422
 
 
