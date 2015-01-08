@@ -22,6 +22,7 @@ VALID_REQUEST_BODY = {
 
 
 class CourtsAPITestBase(TestBase):
+    "A test base for testing requests to the courts API"
     def setUp(self):
         super(CourtsAPITestBase, self).setUp()
         self.api = courts_api

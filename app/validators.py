@@ -10,6 +10,7 @@ with open('court_schema.json') as schema:
 
 
 def validate_court(data):
+    "Validate a data dict against the court request JSON schema"
     try:
         validate(data, COURT_SCHEMA)
     except SchemaError:
