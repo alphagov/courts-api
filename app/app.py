@@ -10,3 +10,4 @@ court = courts.CourtResource()
 
 courts_api.add_route('/courts', courts_index)
 courts_api.add_route('/courts/{uuid}', court)
+courts_api.add_route('/healthcheck', courts.HealthcheckResource())

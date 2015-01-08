@@ -38,6 +38,13 @@ class CourtsAPITestBase(TestBase):
         )
 
 
+class HealthcheckTests(CourtsAPITestBase):
+    def test_healthcheck(self):
+        resp = self.simulate_request('/healthcheck', decode='utf-8')
+        self.assertEqual(self.srmock.status, falcon.HTTP_200)
+        self.assertEqual(resp, 'OK')
+
+
 class CourtRequestTests(CourtsAPITestBase):
     def test_putting_a_valid_court(self):
         self.put(VALID_REQUEST_BODY)

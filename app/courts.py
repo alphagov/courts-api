@@ -74,3 +74,9 @@ class CourtResource(object):
         })
         resp.location = 'https://www.preview.alphagov.co.uk/courts/{}'.format(data['slug'])
         resp.status = falcon.HTTP_201
+
+
+class HealthcheckResource(object):
+
+    def on_get(self, req, resp):
+        resp.body = 'OK'
