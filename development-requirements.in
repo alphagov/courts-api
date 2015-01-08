@@ -1,0 +1,8 @@
+httpie
+ipython
+nose
+sniffer
+git+https://github.com/nvie/pip-tools.git@future
+pipdeptree
+
+-r requirements.in
