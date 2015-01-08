@@ -1,4 +1,4 @@
-falcon==0.2.0b1
+falcon==0.2.0b2
 gunicorn==19.1.1
 jsonschema==2.4.0
 python-mimeparse==0.1.4
