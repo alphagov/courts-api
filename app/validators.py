@@ -34,8 +34,7 @@ def authenticate(req, resp, params):
         raise falcon.HTTPUnauthorized(title, description, scheme=scheme)
 
     # Ask signon if the token is valid
-    signon_resp = signon.authenticate_api_user(header_match.group('token'))
-    if signon_resp.status != 200:
+    if not signon.authenticate_api_user(header_match.group('token')):
         title = 'Authentication Failed'
         description = 'The provided token is invalid'
         scheme = 'Bearer error="invalid_token"'

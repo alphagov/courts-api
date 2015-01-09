@@ -6,7 +6,6 @@ from mock import patch, Mock
 
 from app.app import application as courts_api
 from app.errors import HTTP_422
-from app.signon import signon_response
 
 
 def court_path(court_uuid):
@@ -53,7 +52,7 @@ class HealthcheckTests(CourtsAPITestBase):
         self.assertEqual(resp, 'OK')
 
 
-@patch('app.signon.authenticate_api_user', new=Mock(return_value=signon_response(200)))
+@patch('app.signon.authenticate_api_user', new=Mock(return_value=True))
 class CourtRequestTests(CourtsAPITestBase):
     def test_putting_a_valid_court(self):
         self.put(VALID_REQUEST_BODY)
@@ -110,7 +109,7 @@ class AuthenticationTests(CourtsAPITestBase):
 
     @patch('app.signon.authenticate_api_user')
     def test_authentication_with_invalid_bearer_token(self, signon_mock):
-        signon_mock.return_value.status = 401
+        signon_mock.return_value = False
         resp = self.put(VALID_REQUEST_BODY)
 
         self.assertStatus(falcon.HTTP_401)
