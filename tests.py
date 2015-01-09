@@ -2,10 +2,11 @@ import falcon
 from uuid import uuid4 as random_uuid
 from falcon.testing import TestBase
 from json import dumps, loads
-from mock import patch
+from mock import patch, Mock
 
 from app.app import application as courts_api
 from app.errors import HTTP_422
+from app.signon import signon_response
 
 
 def court_path(court_uuid):
@@ -52,6 +53,7 @@ class HealthcheckTests(CourtsAPITestBase):
         self.assertEqual(resp, 'OK')
 
 
+@patch('app.signon.authenticate_api_user', new=Mock(return_value=signon_response(200)))
 class CourtRequestTests(CourtsAPITestBase):
     def test_putting_a_valid_court(self):
         self.put(VALID_REQUEST_BODY)
