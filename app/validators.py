@@ -19,6 +19,14 @@ def validate_court(data):
         raise HTTPUnprocessableEntity('Validation failed', e.message)
 
 
+def authenticate(req, resp, params):
+    if not req.auth:  # Authorization header isn't set
+        title = 'Authentication Required'
+        description = "Set the 'Authorization' header to 'Bearer <your_token>'"
+        scheme = 'Bearer'
+        raise falcon.HTTPUnauthorized(title, description, scheme=scheme)
+
+
 def check_client_accepts_json(req, resp, params):
     if not req.client_accepts_json:
         raise falcon.HTTPNotAcceptable('You must accept JSON')

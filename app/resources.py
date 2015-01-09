@@ -2,7 +2,7 @@ import falcon
 import json
 
 import publishing_api
-from validators import (check_client_is_sending_json,
+from validators import (authenticate, check_client_is_sending_json,
     check_client_accepts_json, validate_court)
 
 
@@ -22,6 +22,7 @@ class CourtsResource(object):
         resp.status = falcon.HTTP_200
 
 
+@falcon.before(authenticate)
 @falcon.before(check_client_is_sending_json)
 @falcon.before(check_client_accepts_json)
 class CourtResource(object):

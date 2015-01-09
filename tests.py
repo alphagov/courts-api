@@ -11,6 +11,7 @@ def court_path(court_uuid):
     return '/courts/{}'.format(court_uuid)
 
 VALID_REQUEST_HEADERS = {
+    'Authorization': 'Bearer 1234567890',
     'Content-Type': 'application/json',
     'Accept': 'application/json'
 }
@@ -58,6 +59,12 @@ class CourtRequestTests(CourtsAPITestBase):
     def test_putting_an_invalid_court(self):
         self.put({'foo': 'bar'})
         self.assertStatus(HTTP_422)
+
+    def test_authentication_without_authorization_header(self):
+        resp = self.put(VALID_REQUEST_BODY, headers={'Authorization': None})
+        self.assertStatus(falcon.HTTP_401)
+        self.assertEqual('Authentication Required', loads(resp[0])['title'])
+        self.assertEqual('Bearer', self.srmock.headers_dict['www-authenticate'])
 
     def test_putting_with_unsupported_media_type(self):
         self.put(VALID_REQUEST_BODY, headers={'Content-Type': 'text/plain'})
