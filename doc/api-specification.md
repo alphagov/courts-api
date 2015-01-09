@@ -18,7 +18,7 @@ Those properties are organised in a hierarchy. For instance, a court can have mu
 
 ### Court identifiers
 
-A court is identified by a UUID, which the sender generates for new courts and uses to modify or delete existing courts. The format of court UUIDs must match the following regexp (in [Ruby syntax](http://ruby-doc.org/core-2.1.1/Regexp.html):
+A court is identified by a UUID, which the sender generates for new courts and uses to modify or delete existing courts. The format of court UUIDs must match the following regexp (in [Ruby syntax](http://ruby-doc.org/core-2.1.1/Regexp.html)):
 
     UUID_PATTERN = %r{
       \A
@@ -122,9 +122,9 @@ All court data passed through the API by the sender or the receiver (in the body
         "locale": "en",
         "closed": false,
         "alert": "There is an intermittent fault with our telephone number and it is sometimes unavailable.",
-        "lat": "53.7491281247251",
-        "lon": "-2.359323760375266",
-        "court_number": 1725,
+        "lat": 53.7491281247251,
+        "lon": -2.359323760375266,
+        "court_number": "1725",
         "DX": "730458 Blackburn 10",
         "areas_of_law": [
             "Crime", "Adoption"
