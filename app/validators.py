@@ -1,8 +1,10 @@
 import falcon
 import json
+from re import match
 from jsonschema import validate, ValidationError, SchemaError
 
 from errors import HTTPUnprocessableEntity
+import signon
 
 
 with open('court_schema.json') as schema:
@@ -20,10 +22,23 @@ def validate_court(data):
 
 
 def authenticate(req, resp, params):
+    title = 'Authentication Required'
+    description = "Set the 'Authorization' header to 'Bearer <your_token>'"
+    scheme = 'Bearer'
+
     if not req.auth:  # Authorization header isn't set
-        title = 'Authentication Required'
-        description = "Set the 'Authorization' header to 'Bearer <your_token>'"
-        scheme = 'Bearer'
+        raise falcon.HTTPUnauthorized(title, description, scheme=scheme)
+
+    header_match = match('^Bearer (?P<token>[a-f\d]+)$', req.auth)
+    if header_match is None:  # header is malformed, can't get a token from it
+        raise falcon.HTTPUnauthorized(title, description, scheme=scheme)
+
+    # Ask signon if the token is valid
+    signon_resp = signon.authenticate_api_user(header_match.group('token'))
+    if signon_resp.status != 200:
+        title = 'Authentication Failed'
+        description = 'The provided token is invalid'
+        scheme = 'Bearer error="invalid_token"'
         raise falcon.HTTPUnauthorized(title, description, scheme=scheme)
 
 

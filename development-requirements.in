@@ -7,3 +7,4 @@ pipdeptree
 pip<6.0
 
 -r requirements.in
+-r test-requirements.in

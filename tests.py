@@ -2,6 +2,7 @@ import falcon
 from uuid import uuid4 as random_uuid
 from falcon.testing import TestBase
 from json import dumps, loads
+from mock import patch
 
 from app.app import application as courts_api
 from app.errors import HTTP_422
@@ -60,12 +61,6 @@ class CourtRequestTests(CourtsAPITestBase):
         self.put({'foo': 'bar'})
         self.assertStatus(HTTP_422)
 
-    def test_authentication_without_authorization_header(self):
-        resp = self.put(VALID_REQUEST_BODY, headers={'Authorization': None})
-        self.assertStatus(falcon.HTTP_401)
-        self.assertEqual('Authentication Required', loads(resp[0])['title'])
-        self.assertEqual('Bearer', self.srmock.headers_dict['www-authenticate'])
-
     def test_putting_with_unsupported_media_type(self):
         self.put(VALID_REQUEST_BODY, headers={'Content-Type': 'text/plain'})
         self.assertStatus(falcon.HTTP_415)
@@ -90,3 +85,35 @@ class CourtRequestTests(CourtsAPITestBase):
         )
         self.assertStatus(falcon.HTTP_200)
         self.assertIn('courts', loads(resp[0]))
+
+
+class AuthenticationTests(CourtsAPITestBase):
+    def test_authentication_without_authorization_header(self):
+        resp = self.put(VALID_REQUEST_BODY, headers={'Authorization': None})
+        self.assertStatus(falcon.HTTP_401)
+        self.assertEqual('Authentication Required', loads(resp[0])['title'])
+        self.assertEqual('Bearer', self.srmock.headers_dict['www-authenticate'])
+
+    def test_authentication_with_malformed_authorization_header(self):
+        resp = self.put(VALID_REQUEST_BODY, headers={'Authorization': 'hi let me in please'})
+        self.assertStatus(falcon.HTTP_401)
+        self.assertEqual('Authentication Required', loads(resp[0])['title'])
+        self.assertEqual('Bearer', self.srmock.headers_dict['www-authenticate'])
+
+    def test_authentication_with_missing_bearer_token(self):
+        resp = self.put(VALID_REQUEST_BODY, headers={'Authorization': 'Bearer'})
+        self.assertStatus(falcon.HTTP_401)
+        self.assertEqual('Authentication Required', loads(resp[0])['title'])
+        self.assertEqual('Bearer', self.srmock.headers_dict['www-authenticate'])
+
+    @patch('app.signon.authenticate_api_user')
+    def test_authentication_with_invalid_bearer_token(self, signon_mock):
+        signon_mock.return_value.status = 401
+        resp = self.put(VALID_REQUEST_BODY)
+
+        self.assertStatus(falcon.HTTP_401)
+        self.assertEqual('Authentication Failed', loads(resp[0])['title'])
+        self.assertEqual(
+            'Bearer error="invalid_token"',
+            self.srmock.headers_dict['www-authenticate']
+        )
