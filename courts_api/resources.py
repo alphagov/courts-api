@@ -1,7 +1,7 @@
 import falcon
 import json
 
-import publishing_api
+from courts_api.plek import url_for_application
 from validators import (authenticate, check_client_is_sending_json,
     check_client_accepts_json, validate_court)
 
@@ -31,7 +31,7 @@ class CourtResource(object):
         data = json.load(req.stream)
         validate_court(data)
 
-        print 'Sending to {}'.format(publishing_api.url())
+        print 'Sending to {}'.format(url_for_application('publishing-api'))
 
         resp.body = json.dumps({
             'status': 'created',

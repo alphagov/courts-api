@@ -1,5 +1,6 @@
 import requests
 import settings
+from courts_api.plek import url_for_application
 
 
 def authenticate_api_user(token):
@@ -8,7 +9,7 @@ def authenticate_api_user(token):
     Return True if it is valid, and False otherwise.
     """
     url = '{0}/user.json?client_id={1}'.format(
-        settings.signon_url(),
+        url_for_application('signon'),
         settings.SIGNON_CLIENT_ID
     )
     auth_header = 'Bearer {}'.format(token)
