@@ -4,8 +4,8 @@ from falcon.testing import TestBase
 from json import dumps, loads
 from mock import patch, Mock
 
-from app.app import application as courts_api
-from app.errors import HTTP_422
+from courts_api.app import application as courts_api_application
+from courts_api.errors import HTTP_422
 
 
 def court_path(court_uuid):
@@ -27,7 +27,7 @@ class CourtsAPITestBase(TestBase):
     "A test base for testing requests to the courts API"
     def setUp(self):
         super(CourtsAPITestBase, self).setUp()
-        self.api = courts_api
+        self.api = courts_api_application
 
     def put(self, body, headers={}, court_uuid=None):
         merged_headers = dict(VALID_REQUEST_HEADERS.items() + headers.items())
@@ -52,7 +52,7 @@ class HealthcheckTests(CourtsAPITestBase):
         self.assertEqual(resp, 'OK')
 
 
-@patch('app.signon.authenticate_api_user', new=Mock(return_value=True))
+@patch('courts_api.signon.authenticate_api_user', new=Mock(return_value=True))
 class CourtRequestTests(CourtsAPITestBase):
     def test_putting_a_valid_court(self):
         self.put(VALID_REQUEST_BODY)
@@ -107,7 +107,7 @@ class AuthenticationTests(CourtsAPITestBase):
         self.assertEqual('Authentication Required', loads(resp[0])['title'])
         self.assertEqual('Bearer', self.srmock.headers_dict['www-authenticate'])
 
-    @patch('app.signon.authenticate_api_user')
+    @patch('courts_api.signon.authenticate_api_user')
     def test_authentication_with_invalid_bearer_token(self, signon_mock):
         signon_mock.return_value = False
         resp = self.put(VALID_REQUEST_BODY)

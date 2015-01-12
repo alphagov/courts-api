@@ -13,7 +13,7 @@ a new virtualenv and then:
 
 ```
 pip install -r requirements.txt
-gunicorn --reload --access-logfile - --log-level debug app
+gunicorn --reload --access-logfile - --error-logfile - courts_api.app
 ```
 
 ## Current behaviour

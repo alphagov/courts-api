@@ -1,7 +1,7 @@
 import unittest
 from mock import patch, Mock
 
-from app.signon import authenticate_api_user
+from courts_api.signon import authenticate_api_user
 
 
 @patch('settings.SIGNON_CLIENT_ID', 'IMANAPI')
