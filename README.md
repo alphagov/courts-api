@@ -12,9 +12,15 @@ This branch is a quick sketch using [Falcon](http://falconframework.org/) and
 a new virtualenv and then:
 
 ```
-pip install -r requirements.txt
+pip install -r development-requirements.txt
 gunicorn --reload --access-logfile - --error-logfile - courts_api.app
 ```
+
+To run the tests, there are various options:
+- `nosetests` will run all the tests once and then exit
+- `sniffer` will run all the tests every time a file is saved
+- `./jenkins.sh` will create a new virtualenv, install test-requirements.txt,
+run all the tests once and then remove the test virtualenv
 
 ## Current behaviour
 
