@@ -1,3 +1,4 @@
+import falcon
 import requests
 import settings
 from courts_api.plek import url_for_application
@@ -17,4 +18,10 @@ def authenticate_api_user(token):
         url,
         headers={'Authorization': auth_header}
     )
+    if 500 <= response.status_code <= 599:
+        raise falcon.HTTPServiceUnavailable(
+            'Temporarily Unavailable',
+            'Please try again later',
+            30  # value for Retry-After header
+        )
     return response.status_code == 200
