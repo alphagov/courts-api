@@ -13,7 +13,7 @@ a new virtualenv and then:
 
 ```
 pip install -r development-requirements.txt
-gunicorn --reload --access-logfile - --error-logfile - courts_api.app
+gunicorn -c gunicorn-config-development courts_api.app
 ```
 
 To run the tests, there are various options:
