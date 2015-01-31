@@ -1,9 +1,8 @@
 import falcon
 import json
-from os.path import join
-import requests
 
 from courts_api.plek import url_for_application
+from courts_api.publishing_api import PublishingAPI
 from validators import (authenticate, check_client_is_sending_json,
     check_client_accepts_json, validate_court)
 
@@ -33,7 +32,7 @@ class CourtResource(object):
         data = json.loads(req.context['body'])
         validate_court(data)
 
-        publishing_api_response = self._put_to_publishing_api(
+        publishing_api_response = PublishingAPI.put(
             self._court_publishing_api_format(uuid, data)
         )
 
@@ -76,32 +75,3 @@ class CourtResource(object):
                 {'path': self._base_path(court_body), 'type': 'exact'}
             ]
         }
-
-    @staticmethod
-    def _publishing_api_url(data):
-        """Returns the full Publishing API URL to PUT the given data to.
-
-        eg https://publishing-api.preview.alphagov.co.uk/content/courts/barnsley-court
-        """
-        return join(
-            url_for_application('publishing-api'),
-            'content',
-            data['base_path'],
-        )
-
-    def _put_to_publishing_api(self, data):
-        """PUT data to the publishing-api."""
-        print 'Sending to {}'.format(self._publishing_api_url(data))
-        try:
-            publishing_api_response = requests.put(
-                self._publishing_api_url(data),
-                data=data,
-            )
-        except requests.ConnectionError:
-            raise falcon.HTTPServiceUnavailable(
-                'Temporarily Unavailable',
-                'Please try again later',
-                30  # value for Retry-After header
-            )
-
-        return publishing_api_response
