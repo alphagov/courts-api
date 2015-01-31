@@ -4,6 +4,7 @@ import settings
 
 
 def url_for_application(application):
+    """Return the base URL for the given application."""
     scheme = 'https'
     if settings.govuk_env() == 'development':
         scheme = 'http'
