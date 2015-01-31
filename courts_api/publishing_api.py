@@ -1,5 +1,4 @@
 import falcon
-from os.path import join
 import requests
 
 from courts_api.plek import url_for_application
@@ -12,9 +11,8 @@ class PublishingAPI(object):
 
         eg https://publishing-api.preview.alphagov.co.uk/content/courts/barnsley-court
         """
-        return join(
-            url_for_application('publishing-api'),
-            'content',
+        return '{0}/content{1}'.format(
+            url_for_application('publishing-api').rstrip('/'),
             data['base_path'],
         )
 
