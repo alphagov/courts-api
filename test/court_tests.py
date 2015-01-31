@@ -42,3 +42,15 @@ class CourtTestCase(unittest.TestCase):
             expected,
             Court(uuid, {'name': name, 'slug': slug}).publishing_api_format
         )
+
+    def test_response_format(self):
+        name = 'Barnsley Court'
+        slug = 'barnsley-court'
+        expected = {
+            'name': name,
+            'public_url': 'http://www.dev.gov.uk/courts/barnsley-court'
+        }
+        self.assertEqual(
+            expected,
+            Court(random_uuid(), {'name': name, 'slug': slug}).response_format
+        )
