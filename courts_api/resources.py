@@ -1,6 +1,7 @@
 import falcon
 import json
 
+from courts_api.court import Court
 from courts_api.errors import HTTP_422
 from courts_api.plek import url_for_application
 from courts_api.publishing_api import PublishingAPI
@@ -31,13 +32,12 @@ class CourtResource(object):
     def on_put(self, req, resp, uuid):
         data = self._parse_body(req)
         validate_court(data)
+        court = Court(uuid, data)
 
-        publishing_api_response = PublishingAPI.put(
-            self._court_publishing_api_format(uuid, data)
-        )
+        publishing_api_response = PublishingAPI.put(court.publishing_api_format)
 
         self._set_response_status(resp, publishing_api_response.status_code)
-        self._set_response_body(resp, publishing_api_response, data)
+        self._set_response_body(resp, publishing_api_response, court)
         self._set_response_location_header(resp, publishing_api_response, uuid)
 
     @staticmethod
@@ -53,27 +53,6 @@ class CourtResource(object):
         return data
 
     @staticmethod
-    def _base_path(court_body):
-        return '/courts/{}'.format(court_body['slug'])
-
-    def _public_url(self, court_body):
-        return url_for_application('www') + self._base_path(court_body)
-
-    def _court_publishing_api_format(self, court_id, court_body):
-        return {
-            'base_path': self._base_path(court_body),
-            'content_id': court_id,
-            'title': court_body['name'],
-            'format': 'court',
-            'update_type': 'major',
-            'publishing_app': 'courts-api',
-            'rendering_app': 'courts-frontend',
-            'routes': [
-                {'path': self._base_path(court_body), 'type': 'exact'}
-            ]
-        }
-
-    @staticmethod
     def _set_response_status(resp, status_code):
         """Set resp.status based on the given status code."""
         if status_code == 422:
@@ -81,7 +60,7 @@ class CourtResource(object):
         else:
             resp.status = getattr(falcon, 'HTTP_{}'.format(status_code))
 
-    def _set_response_body(self, resp, publishing_api_response, court_data):
+    def _set_response_body(self, resp, publishing_api_response, court):
         """Set the response body.
 
         If the response from the publishing API was 4xx, include any returned
@@ -93,8 +72,8 @@ class CourtResource(object):
 
         if status_code in [200, 201]:
             resp.body = json.dumps({
-                'name': court_data['name'],
-                'public_url': self._public_url(court_data),
+                'name': court.name,
+                'public_url': court.public_url,
             })
         elif 400 <= status_code <= 499 and \
                 'errors' in publishing_api_resp_body:
