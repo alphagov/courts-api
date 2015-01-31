@@ -11,17 +11,21 @@ from courts_api.errors import HTTP_422
 @patch('requests.put')
 @patch('courts_api.middleware.logger')
 class CourtRequestTests(CourtsAPITestBase):
-    def test_putting_a_valid_court(self, logger_mock, put_mock):
+    def test_putting_a_valid_court_succeeds(self, logger_mock, put_mock):
         put_mock.return_value = Mock(status_code=201)
-        # We need to make an assertion later involving the uuid, so set it
-        # explictly here:
-        uuid = random_uuid()
-        resp = self.put(VALID_REQUEST_BODY, court_uuid=uuid)
+        self.put(VALID_REQUEST_BODY)
 
         self.assertStatus(falcon.HTTP_201)
         self.assertTrue(put_mock.called)
         # Assert that the info method on the logger is called:
         self.assertTrue(logger_mock.info.called)
+
+    def test_response_details_for_a_valid_court(self, logger_mock, put_mock):
+        put_mock.return_value = Mock(status_code=201)
+        # We need to make an assertion later involving the uuid, so set it
+        # explictly here:
+        uuid = random_uuid()
+        resp = self.put(VALID_REQUEST_BODY, court_uuid=uuid)
 
         response_body = loads(resp[0])
         self.assertEqual('Barnsley Court', response_body['name'])
