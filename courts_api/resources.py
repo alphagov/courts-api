@@ -38,10 +38,8 @@ class CourtResource(object):
 
         if publishing_api_response.status_code in [200, 201]:
             resp.body = json.dumps({
-                'status': 'created',
-                'uuid': uuid,
                 'name': data['name'],
-                'slug': data['slug']
+                'public_url': self._public_url(data),
             })
             resp.status = getattr(falcon, 'HTTP_{}'.format(publishing_api_response.status_code))
             if publishing_api_response.status_code == 201:
@@ -61,6 +59,9 @@ class CourtResource(object):
     @staticmethod
     def _base_path(court_body):
         return '/courts/{}'.format(court_body['slug'])
+
+    def _public_url(self, court_body):
+        return url_for_application('www') + self._base_path(court_body)
 
     def _court_publishing_api_format(self, court_id, court_body):
         return {
