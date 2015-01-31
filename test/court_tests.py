@@ -1,22 +1,31 @@
+from jsonschema import ValidationError
 import unittest
 
 from courts_api.court import Court
-from helpers import random_uuid
+from helpers import random_uuid, VALID_REQUEST_BODY
 
 
 class CourtTestCase(unittest.TestCase):
     def test_instantiation_sets_attributes(self):
         uuid = random_uuid()
-        court = Court(uuid, {'name': 'Barnsley Court'})
+        court = Court(uuid, VALID_REQUEST_BODY)
         self.assertEqual(uuid, court.uuid)
         self.assertEqual('Barnsley Court', court.name)
 
+    def test_court_is_validated_on_instantiation(self):
+        with self.assertRaises(ValidationError) as context_manager:
+            Court(random_uuid(), {'name': 'Barnsley Court'})
+        self.assertEqual(
+            "u'slug' is a required property",
+            context_manager.exception.message
+        )
+
     def test_base_path(self):
-        court = Court(random_uuid(), {'slug': 'barnsley-court'})
+        court = Court(random_uuid(), VALID_REQUEST_BODY)
         self.assertEqual('/courts/barnsley-court', court.base_path)
 
     def test_public_url(self):
-        court = Court(random_uuid(), {'slug': 'barnsley-court'})
+        court = Court(random_uuid(), VALID_REQUEST_BODY)
         self.assertEqual(
             'http://www.dev.gov.uk/courts/barnsley-court',
             court.public_url

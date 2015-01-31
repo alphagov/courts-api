@@ -1,12 +1,13 @@
 import falcon
 import json
+import jsonschema
 
 from courts_api.court import Court
-from courts_api.errors import HTTP_422
+from courts_api.errors import HTTP_422, HTTPUnprocessableEntity
 from courts_api.plek import url_for_application
 from courts_api.publishing_api import PublishingAPI
 from validators import (authenticate, check_client_is_sending_json,
-    check_client_accepts_json, validate_court)
+    check_client_accepts_json)
 
 
 class HealthcheckResource(object):
@@ -30,9 +31,7 @@ class CourtsResource(object):
 class CourtResource(object):
 
     def on_put(self, req, resp, uuid):
-        data = self._parse_body(req)
-        validate_court(data)
-        court = Court(uuid, data)
+        court = self._court_from_request(uuid, req)
 
         publishing_api_response = PublishingAPI.put(court.publishing_api_format)
 
@@ -51,6 +50,20 @@ class CourtResource(object):
                 'The request body could not be parsed as JSON.'
             )
         return data
+
+    def _court_from_request(self, uuid, req):
+        """Construct a Court instance from request data.
+
+        Court validates the data against the JSON schema, so this handles the
+        conversion of any errors raised there into error responses.
+        """
+        data = self._parse_body(req)
+        try:
+            return Court(uuid, data)
+        except jsonschema.SchemaError:
+            raise falcon.HTTPInternalServerError
+        except jsonschema.ValidationError as e:
+            raise HTTPUnprocessableEntity('Validation failed', e.message)
 
     @staticmethod
     def _set_response_status(resp, status_code):
