@@ -29,3 +29,11 @@ class PublishingAPITestCase(unittest.TestCase):
         with self.assertRaises(falcon.HTTPServiceUnavailable):
             PublishingAPI.put(data)
         self.assertTrue(put_mock.called)
+
+    @patch('requests.put')
+    def test_put_with_publishing_api_timeout(self, put_mock):
+        put_mock.return_value = Mock(status_code=504)
+        data = {'base_path': '/courts/barnsley-court'}
+        with self.assertRaises(falcon.HTTPServiceUnavailable):
+            PublishingAPI.put(data)
+        self.assertTrue(put_mock.called)

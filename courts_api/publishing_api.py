@@ -18,14 +18,24 @@ class PublishingAPI(object):
 
     @classmethod
     def put(cls, data):
-        """PUT data to the publishing-api."""
+        """PUT data to the publishing-api and return the response.
+
+        If the request raises an exception, or if the response status is 5xx,
+        this method raises an instance of Falcon's 503 error class.
+        """
         print 'Sending to {}'.format(cls._url_for_data(data))
+        server_error = False
         try:
             publishing_api_response = requests.put(
                 cls._url_for_data(data),
                 json=data,
             )
-        except requests.ConnectionError:
+            if 500 <= publishing_api_response.status_code <= 599:
+                server_error = True
+        except requests.exceptions.RequestException:
+            server_error = True
+
+        if server_error:
             raise falcon.HTTPServiceUnavailable(
                 'Temporarily Unavailable',
                 'Please try again later',

@@ -63,12 +63,3 @@ class CourtRequestTests(CourtsAPITestBase):
         self.assertIn('courts', loads(resp[0]))
         self.assertFalse(put_mock.called)
         self.assertTrue(logger_mock.info.called)
-
-    def test_publishing_api_times_out(self, logger_mock, put_mock):
-        put_mock.return_value = Mock(status_code=504)
-        resp = self.put(VALID_REQUEST_BODY)
-
-        self.assertStatus(falcon.HTTP_503)
-        self.assertEqual('Temporarily Unavailable', loads(resp[0])['title'])
-        self.assertTrue(put_mock.called)
-        self.assertTrue(logger_mock.info.called)
