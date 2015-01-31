@@ -71,10 +71,7 @@ class CourtResource(object):
         status_code = publishing_api_response.status_code
 
         if status_code in [200, 201]:
-            resp.body = json.dumps({
-                'name': court.name,
-                'public_url': court.public_url,
-            })
+            resp.body = json.dumps(court.response_format)
         elif 400 <= status_code <= 499 and \
                 'errors' in publishing_api_resp_body:
             resp.body = json.dumps({

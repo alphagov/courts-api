@@ -35,3 +35,11 @@ class Court(object):
                 {'path': self.base_path, 'type': 'exact'}
             ]
         }
+
+    @property
+    def response_format(self):
+        """A dict representing the court to be returned to the client."""
+        return {
+            'name': self.name,
+            'public_url': self.public_url,
+        }
