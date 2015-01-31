@@ -1,7 +1,6 @@
 import falcon
 from json import loads
 from mock import patch, Mock
-from requests import ConnectionError
 
 from helpers import (CourtsAPITestBase, court_path, random_uuid,
     VALID_REQUEST_BODY, VALID_REQUEST_HEADERS)
@@ -67,15 +66,6 @@ class CourtRequestTests(CourtsAPITestBase):
 
     def test_publishing_api_times_out(self, logger_mock, put_mock):
         put_mock.return_value = Mock(status_code=504)
-        resp = self.put(VALID_REQUEST_BODY)
-
-        self.assertStatus(falcon.HTTP_503)
-        self.assertEqual('Temporarily Unavailable', loads(resp[0])['title'])
-        self.assertTrue(put_mock.called)
-        self.assertTrue(logger_mock.info.called)
-
-    def test_publishing_api_connection_error(self, logger_mock, put_mock):
-        put_mock.side_effect = ConnectionError('Connection aborted.')
         resp = self.put(VALID_REQUEST_BODY)
 
         self.assertStatus(falcon.HTTP_503)
