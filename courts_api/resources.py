@@ -29,7 +29,7 @@ class CourtsResource(object):
 class CourtResource(object):
 
     def on_put(self, req, resp, uuid):
-        data = json.loads(req.context['body'])
+        data = self._parse_body(req)
         validate_court(data)
 
         publishing_api_response = PublishingAPI.put(
@@ -40,6 +40,17 @@ class CourtResource(object):
         self._set_response_body(resp, publishing_api_response, data)
         self._set_response_location_header(resp, publishing_api_response, uuid)
 
+    @staticmethod
+    def _parse_body(req):
+        """Parse the request body and return it as a dict."""
+        try:
+            data = json.loads(req.context['body'])
+        except ValueError:
+            raise falcon.HTTPBadRequest(
+                'Bad Request',
+                'The request body could not be parsed as JSON.'
+            )
+        return data
 
     @staticmethod
     def _base_path(court_body):

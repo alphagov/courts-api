@@ -52,6 +52,21 @@ class CourtRequestTests(CourtsAPITestBase):
         self.assertFalse(put_mock.called)
         self.assertTrue(logger_mock.info.called)
 
+    def test_putting_invalid_json(self, logger_mock, put_mock):
+        resp = self.simulate_request(
+            court_path(random_uuid()),
+            method='PUT',
+            headers=VALID_REQUEST_HEADERS,
+            body=''
+        )
+
+        self.assertStatus(falcon.HTTP_400)
+        response_body = loads(resp[0])
+        self.assertEqual(
+            'The request body could not be parsed as JSON.',
+            response_body['description']
+        )
+
     def test_putting_without_accepting_json(self, logger_mock, put_mock):
         self.put(VALID_REQUEST_BODY, headers={'Accept': 'application/xml'})
 
