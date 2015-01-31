@@ -13,12 +13,19 @@ from courts_api.errors import HTTP_422
 class CourtRequestTests(CourtsAPITestBase):
     def test_putting_a_valid_court(self, logger_mock, put_mock):
         put_mock.return_value = Mock(status_code=201)
-        self.put(VALID_REQUEST_BODY)
+        resp = self.put(VALID_REQUEST_BODY)
 
         self.assertStatus(falcon.HTTP_201)
         self.assertTrue(put_mock.called)
         # Assert that the info method on the logger is called:
         self.assertTrue(logger_mock.info.called)
+
+        response_body = loads(resp[0])
+        self.assertEqual('Barnsley Court', response_body['name'])
+        self.assertEqual(
+            'http://www.dev.gov.uk/courts/barnsley-court',
+            response_body['public_url']
+        )
 
     def test_putting_an_invalid_court(self, logger_mock, put_mock):
         self.put({'foo': 'bar'})
