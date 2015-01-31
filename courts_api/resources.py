@@ -4,10 +4,10 @@ import jsonschema
 
 from courts_api.court import Court
 from courts_api.errors import HTTP_422, HTTPUnprocessableEntity
+from courts_api.hooks import (authenticate, check_client_is_sending_json,
+    check_client_accepts_json)
 from courts_api.plek import url_for_application
 from courts_api.publishing_api import PublishingAPI
-from validators import (authenticate, check_client_is_sending_json,
-    check_client_accepts_json)
 
 
 class HealthcheckResource(object):
