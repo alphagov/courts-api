@@ -1,11 +1,22 @@
+import json
+import jsonschema
+
 from courts_api.plek import url_for_application
 
 
 class Court(object):
+    with open('court_schema.json') as schema:
+        COURT_SCHEMA = json.load(schema)
+
     def __init__(self, uuid, data):
+        self.validate(data)
         for key, value in data.items():
             setattr(self, key, value)
         self.uuid = uuid
+
+    def validate(self, data):
+        """Validate a data dict against the court request JSON schema."""
+        jsonschema.validate(data, self.COURT_SCHEMA)
 
     @property
     def base_path(self):
