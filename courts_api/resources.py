@@ -14,7 +14,6 @@ class HealthcheckResource(object):
         resp.body = 'OK'
 
 
-@falcon.before(check_client_is_sending_json)
 @falcon.before(check_client_accepts_json)
 class CourtsResource(object):
 
