@@ -19,6 +19,13 @@ VALID_REQUEST_BODY = {
     'slug': 'barnsley-court'
 }
 
+ENVIRON = {
+    'REQUEST_METHOD': 'PUT',
+    'PATH_INFO': '/courts/12345',
+    'QUERY_STRING': '',
+    'SERVER_PROTOCOL': 'HTTP/1.1',
+}
+
 
 class CourtsAPITestBase(TestBase):
     "A test base for testing requests to the courts API"
