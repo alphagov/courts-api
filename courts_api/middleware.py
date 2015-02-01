@@ -27,7 +27,7 @@ def extra_log_data(environ, request_body, status_code):
     return {
         'request': request_log_field(environ),
         'method': environ['REQUEST_METHOD'],
-        'govuk_request_id': environ.get('HTTP_GOVUK-Request-Id', ''),
+        'govuk_request_id': environ.get('HTTP_GOVUK_REQUEST_ID', ''),
         'request_body': request_body,
         'status': status_code,
     }
