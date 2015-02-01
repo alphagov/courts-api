@@ -43,7 +43,7 @@ class CourtResource(object):
     def _parse_body(req):
         """Parse the request body and return it as a dict."""
         try:
-            data = json.loads(req.context['body'])
+            data = json.loads(req.stream.read())
         except ValueError:
             raise falcon.HTTPBadRequest(
                 'Bad Request',

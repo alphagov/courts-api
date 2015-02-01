@@ -6,8 +6,9 @@ from courts_api.resources import CourtsResource, CourtResource, HealthcheckResou
 from settings import logger
 
 
-application = falcon.API(middleware=[ResponseLoggerMiddleware()])
+falcon_app = falcon.API()
+falcon_app.add_route('/courts', CourtsResource())
+falcon_app.add_route('/courts/{uuid}', CourtResource())
+falcon_app.add_route('/healthcheck', HealthcheckResource())
 
-application.add_route('/courts', CourtsResource())
-application.add_route('/courts/{uuid}', CourtResource())
-application.add_route('/healthcheck', HealthcheckResource())
+application = ResponseLoggerMiddleware(falcon_app)
