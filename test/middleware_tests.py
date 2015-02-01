@@ -1,7 +1,10 @@
 from json import dumps
+from mock import Mock, patch
+import StringIO
 import unittest
 
-from courts_api.middleware import request_log_field, extra_log_data
+from courts_api.middleware import (request_log_field, extra_log_data,
+    ResponseLoggerMiddleware)
 from test.helpers import ENVIRON
 
 
@@ -34,4 +37,34 @@ class LoggingMiddlewareHelperTests(unittest.TestCase):
         self.assertEqual(
             'abcdefg',
             extra_log_data(environ, request_body, 422)['govuk_request_id']
+        )
+
+
+class ResponseLoggerMiddlewareTests(unittest.TestCase):
+    @staticmethod
+    def call_application_via_middleware(application):
+        application = ResponseLoggerMiddleware(application)
+
+        environ = ENVIRON.copy()
+        environ['wsgi.input'] = StringIO.StringIO('body text')
+        start_response_mock = Mock(return_value=None)
+        application(environ, start_response_mock)
+
+    @patch('courts_api.middleware.logger')
+    def test_logger_info_method_is_called_correctly(self, logger_mock):
+        def fake_application(environ, start_response):
+                start_response('200 OK', [])
+                return ['response body']
+
+        self.call_application_via_middleware(fake_application)
+
+        logger_mock.info.assert_called_once_with(
+            '',
+            extra={
+                'request': 'PUT /courts/12345 HTTP/1.1',
+                'method': 'PUT',
+                'govuk_request_id': '',
+                'request_body': 'body text',
+                'status': '200',
+            }
         )
