@@ -26,9 +26,9 @@ class LoggingMiddlewareHelperTests(unittest.TestCase):
             'method': 'PUT',
             'govuk_request_id': '',
             'request_body': '{"name": "Barnsley Court"}',
-            'status': 422
+            'status': ''
         }
-        self.assertEqual(expected, extra_log_data(ENVIRON, request_body, 422))
+        self.assertEqual(expected, extra_log_data(ENVIRON, request_body))
 
     def test_extra_log_data_with_govuk_request_id(self):
         environ = ENVIRON.copy()
@@ -36,7 +36,7 @@ class LoggingMiddlewareHelperTests(unittest.TestCase):
         request_body = dumps({'name': 'Barnsley Court'})
         self.assertEqual(
             'abcdefg',
-            extra_log_data(environ, request_body, 422)['govuk_request_id']
+            extra_log_data(environ, request_body)['govuk_request_id']
         )
 
 
@@ -66,5 +66,27 @@ class ResponseLoggerMiddlewareTests(unittest.TestCase):
                 'govuk_request_id': '',
                 'request_body': 'body text',
                 'status': '200',
+            }
+        )
+
+    @patch('courts_api.middleware.logger')
+    def test_request_is_logged_with_uncaught_exception(self, logger_mock):
+        class ApplicationException(Exception):
+            pass
+
+        def fake_application(environ, start_response):
+            raise ApplicationException('oh noes')
+
+        with self.assertRaises(ApplicationException):
+            self.call_application_via_middleware(fake_application)
+
+        logger_mock.error.assert_called_once_with(
+            "ApplicationException('oh noes',)",
+            extra={
+                'request': 'PUT /courts/12345 HTTP/1.1',
+                'method': 'PUT',
+                'govuk_request_id': '',
+                'request_body': 'body text',
+                'status': ''
             }
         )
