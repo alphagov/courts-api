@@ -10,9 +10,14 @@ def request_log_field(environ):
 
     Eg 'PUT /courts/12345?foo=bar HTTP/1.1'
     """
+    relative_url = environ['PATH_INFO']
+    query_string = environ['QUERY_STRING']
+    if query_string:
+        relative_url += '?{}'.format(query_string)
+
     return '{0} {1} {2}'.format(
         environ['REQUEST_METHOD'],
-        environ['PATH_INFO'] + '?' + environ['QUERY_STRING'],
+        relative_url,
         environ['SERVER_PROTOCOL']
     )
 
