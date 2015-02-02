@@ -26,7 +26,6 @@ class PublishingAPI(object):
         If the request raises an exception, or if the response status is 5xx,
         this method raises an instance of Falcon's 503 error class.
         """
-        print 'Sending to {}'.format(cls._url_for_data(data))
         server_error = False
         try:
             publishing_api_response = requests.put(
