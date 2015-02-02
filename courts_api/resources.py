@@ -80,16 +80,12 @@ class CourtResource(object):
         errors in resp.body. If the court was successfully sent to the
         publishing API, include basic details about it instead.
         """
-        publishing_api_resp_body = publishing_api_response.json()
         status_code = publishing_api_response.status_code
 
         if status_code in [200, 201]:
             resp.body = json.dumps(court.response_format)
-        elif 400 <= status_code <= 499 and \
-                'errors' in publishing_api_resp_body:
-            resp.body = json.dumps({
-                'errors': publishing_api_resp_body['errors']}
-            )
+        elif 400 <= status_code <= 499:
+            resp.body = publishing_api_response.content
 
     @staticmethod
     def _set_response_location_header(resp, publishing_api_response, uuid):
