@@ -1,7 +1,10 @@
 import falcon
+import logging
 import requests
 
 from courts_api.plek import url_for_application
+
+logger = logging.getLogger(__name__)
 
 
 class PublishingAPI(object):
@@ -31,8 +34,13 @@ class PublishingAPI(object):
                 json=data,
             )
             if 500 <= publishing_api_response.status_code <= 599:
+                logger.warn(
+                    '{} received from Publishing API'.format(publishing_api_response.status_code),
+                    extra={'publishing_api_response_body': publishing_api_response.content}
+                )
                 server_error = True
-        except requests.exceptions.RequestException:
+        except requests.exceptions.RequestException as e:
+            logger.warn(repr(e))
             server_error = True
 
         if server_error:

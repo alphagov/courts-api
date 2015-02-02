@@ -41,12 +41,15 @@ class AuthenticationTests(CourtsAPITestBase):
         )
         self.assertTrue(logger_mock.info.called)
 
+    @patch('courts_api.signon.logger')
     @patch('requests.get')
-    def test_authentication_when_signon_unavailable(self, get_mock, logger_mock):
+    def test_authentication_when_signon_unavailable(self, get_mock,
+            signon_logger_mock, middleware_logger_mock):
         get_mock.return_value = Mock(status_code=504)  # Gateway Timeout
         resp = self.put(VALID_REQUEST_BODY)
 
         self.assertStatus(falcon.HTTP_503)
         self.assertEqual('Temporarily Unavailable', loads(resp[0])['title'])
         self.assertEqual('30', self.srmock.headers_dict['retry-after'])
-        self.assertTrue(logger_mock.info.called)
+        self.assertTrue(middleware_logger_mock.info.called)
+        self.assertTrue(signon_logger_mock.warn.called)

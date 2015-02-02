@@ -22,18 +22,22 @@ class PublishingAPITestCase(unittest.TestCase):
         resp = PublishingAPI.put(data)
         self.assertEqual(201, resp.status_code)
 
+    @patch('courts_api.publishing_api.logger')
     @patch('requests.put')
-    def test_put_with_connection_error(self, put_mock):
+    def test_put_with_connection_error(self, put_mock, logger_mock):
         put_mock.side_effect = ConnectionError('Connection aborted.')
         data = {'base_path': '/courts/barnsley-court'}
         with self.assertRaises(falcon.HTTPServiceUnavailable):
             PublishingAPI.put(data)
         self.assertTrue(put_mock.called)
+        self.assertTrue(logger_mock.warn.called)
 
+    @patch('courts_api.publishing_api.logger')
     @patch('requests.put')
-    def test_put_with_publishing_api_timeout(self, put_mock):
+    def test_put_with_publishing_api_timeout(self, put_mock, logger_mock):
         put_mock.return_value = Mock(status_code=504)
         data = {'base_path': '/courts/barnsley-court'}
         with self.assertRaises(falcon.HTTPServiceUnavailable):
             PublishingAPI.put(data)
         self.assertTrue(put_mock.called)
+        self.assertTrue(logger_mock.warn.called)

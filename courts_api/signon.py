@@ -1,7 +1,10 @@
 import falcon
+import logging
 import requests
 import settings
 from courts_api.plek import url_for_application
+
+logger = logging.getLogger(__name__)
 
 
 def authenticate_api_user(token):
@@ -19,6 +22,10 @@ def authenticate_api_user(token):
         headers={'Authorization': auth_header}
     )
     if 500 <= response.status_code <= 599:
+        logger.warn(
+            '{} received from Signon'.format(response.status_code),
+            extra={'signon_response_body': response.content}
+        )
         raise falcon.HTTPServiceUnavailable(
             'Temporarily Unavailable',
             'Please try again later',
