@@ -8,7 +8,6 @@ describe 'publishing a court' do
 
   let(:publishing_api_hash) do
     {
-      base_path: '/courts/barnsley-squash-court',
       content_id: court_id,
       title: 'Barnsley Squash Court',
       format: 'court',
