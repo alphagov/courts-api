@@ -34,7 +34,6 @@ private
     name = court_body['name']
 
     {
-      base_path: base_path(court_body),
       content_id: court_id,
       title: name,
       format: 'court',
